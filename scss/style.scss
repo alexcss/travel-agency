@@ -10,6 +10,12 @@ $text-color: #e8e8e8;
 
 $bofy-font-family: 'Josefin Sans', sans-serif;
 $header-font-family: 'Aleo', sans-serif;
+
+$bp-small: 480px;
+$bp-medium: 768px;
+$bp-large: 960px;
+$bp-xlarge: 1200px;
+
 .ba-row > [class*="ba-width-"]{
 	padding-left: 30px;
 }
@@ -130,11 +136,17 @@ textarea {
 .ba-container--intro {
 	width: 100%;
 }
+
 .ba-page-title {
 	text-transform: uppercase;
-	font: 600 48px/1 $bofy-font-family;
+	font: 600 36px/1 $bofy-font-family;
 	letter-spacing: .07em;
 	margin: 0;
+	color: #FFF;
+
+	@media (min-width: $bp-small) {
+		font-size: 48px;
+	}
 }
 .ba-motto {
 	margin: -1px 0 42px;
@@ -163,6 +175,15 @@ textarea {
 	margin: 0 auto;
 	display: flex;
 	padding: 2px;
+
+	@media (max-width: $bp-small){
+		flex-wrap: wrap;
+
+		&__btn{
+			width: 100%;
+		}
+	}
+
 	&__input{
 		flex-grow: 1;
 		text-align: center;
@@ -173,6 +194,7 @@ textarea {
 		font-size: 14px;
 		letter-spacing: 0.1em;
 		padding: 0 14px 0 34px;
+
 		svg{
 			width: 25px;
 			height: 25px;
@@ -202,17 +224,21 @@ textarea {
 		color: #FFF;
 	}
 }
+
 .ba-main-nav{
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	float: right;
+
 	li{
-		float: left;
-		height: 80px;
-		line-height: 80px;
-		&:not(:first-child){
-			padding-left: 42px;
+		@media (min-width: $bp-large+1) {
+			float: left;
+			height: 80px;
+			line-height: 80px;
+			&:not(:first-child){
+				padding-left: 42px;
+			}
 		}
 	}
 	a{
@@ -222,6 +248,82 @@ textarea {
 		font: 400 14px/1 $header-font-family;
 		&:hover, &:focus{
 			color: lighten($primary-color, 15%);
+		}
+	}
+}
+// Mobile menu
+.ba-menu-toggle{
+	background: none;
+	padding: 0;
+	line-height: 1;
+	min-height: auto;
+	display: none;
+	&:active, &:hover, &:focus{
+		background: none;
+		color: lighten($primary-color, 20%);
+	}
+}
+.ba-overlay{
+	position: fixed;
+	z-index: 9;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(#000, .6);
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity .3s ease-out, visibility .3s ease-out;
+
+}
+@media (max-width:$bp-large){
+	.ba-overlay{
+		.ba-menu-open &{
+        	visibility: visible;
+        	opacity: 1;
+		}
+	}
+	.ba-header{
+		position: relative;
+		z-index: 2;
+	}
+	.ba-menu-toggle{
+		display: inline-block;
+		position: absolute;
+		right: 20px;
+		top: 50%;
+		margin-top: -13px;
+	}
+	.ba-wrap{
+		position: relative;
+		left:0;
+		transition: left .3s ease-out;
+		.ba-menu-open &{
+        	left: -230px;
+		}
+	}
+	.ba-main-nav{
+		position: fixed;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		width: 230px;
+		background: $secondary-color;
+		z-index: 10;
+        transform: translateX(100%);
+        transition: transform .3s ease-out;
+
+		.ba-menu-open &{
+        	transform: translateX(0);
+		}
+
+		li{
+			padding: 35px 30px 0;
+		}
+		a{
+			display: block;
+			font-size: 16px;
+			line-height: 1.2;
 		}
 	}
 }
@@ -245,7 +347,11 @@ textarea {
 	background-image: url(../img/sky.jpg);
 	padding: 120px 0;
 	&__content{
-		padding-top: 75px;
+
+		@media (min-width: $bp-medium){
+			padding-top: 75px;
+		}
+
 		p{
 			letter-spacing: 0.065em;
 		}
@@ -267,11 +373,24 @@ textarea {
 }
 
 .ba-images-grid{
-	padding-left: 65px;
+	padding: 40px 0 0;
+
+	@media (min-width: $bp-medium){
+		padding:0 0 0 65px;
+
+		img + img{
+			margin-top: 5px;
+		}
+	}
+
 	img{
 		float: left;
-		& + img{
-			margin-top: 5px;
+
+		@media (max-width: $bp-small){
+			width: 100%;
+		}
+		@media (min-width: $bp-small) and (max-width: $bp-medium){
+			width: 50%;
 		}
 	}
 	:nth-child(2n){
